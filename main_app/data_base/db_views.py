@@ -1,15 +1,27 @@
-from main_app.data_base.db_models import Question
-
+from .db_models import Question
 from .db_settings import session
 
 
-def get_question(question_id: int) -> Question:
-    question = session.query(Question).get(question_id)
-    return question
+def question_exists(service_id) -> bool:
+    question = session.query(Question).filter_by(service_id=service_id).first()
+    return True if question else False
 
 
-def set_question(question_text: str, answer_text: str) -> Question:
-    question = Question(question_text=question_text, answer_text=answer_text)
+def get_last_question() -> Question:
+    return session.query(Question).order_by(Question.id.desc()).first()
+
+
+def set_question(
+        service_id: int,
+        answer_text: str,
+        question_text: str,
+        created_at: str
+) -> None:
+    question = Question(
+        service_id=service_id,
+        question_text=question_text,
+        answer_text=answer_text,
+        created_at=created_at,
+    )
     session.add(question)
     session.commit()
-    return question

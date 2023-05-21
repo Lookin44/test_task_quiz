@@ -4,7 +4,7 @@ from fastapi.responses import JSONResponse
 from fastapi import FastAPI
 from requests import get
 
-from .app_serializers import ValueInput, QuestionSchema
+from data_base.db_serializers import ValueInput, QuestionSchema
 from data_base.db_views import set_question, get_last_question, question_exists
 
 
